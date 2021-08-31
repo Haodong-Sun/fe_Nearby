@@ -1553,6 +1553,11 @@
   resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.16.2.tgz#8db514b059c1b2ae14ce9d7bb325296de6a9a0fa"
   integrity sha512-vKx7WNQNZDyJveYcHAm9ZxhqSGLYwoyLhrHjLBOkw3a7cT76sTdjgtwyijhk1MaHyRIuSztcVwrUOO/NEu68Dw==
 
+"@types/wechat-miniprogram@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@types/wechat-miniprogram/-/wechat-miniprogram-3.4.0.tgz#d743d5b3c17bd531c2c178ea1fe9d92a0b23bcd0"
+  integrity sha512-7d7KDwoV42/ANx/0C8C4ctBv1q9XnXYD4Fz0C+3ii0Tm+HRIwwDcinv8S88Ut/Y80czlI0shGpTgLFe0GbrXWQ==
+
 "@typescript-eslint/eslint-plugin@^4.15.1":
   version "4.29.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-4.29.0.tgz#b866c9cd193bfaba5e89bade0015629ebeb27996"

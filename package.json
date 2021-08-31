@@ -37,11 +37,12 @@
   "dependencies": {
     "@babel/runtime": "^7.7.7",
     "@tarojs/components": "3.3.2",
+    "@tarojs/react": "3.3.2",
     "@tarojs/runtime": "3.3.2",
     "@tarojs/taro": "3.3.2",
-    "@tarojs/react": "3.3.2",
-    "react-dom": "^17.0.0",
-    "react": "^17.0.0"
+    "@types/wechat-miniprogram": "^3.4.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
   },
   "devDependencies": {
     "@types/webpack-env": "^1.13.6",

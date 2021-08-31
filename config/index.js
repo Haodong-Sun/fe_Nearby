@@ -1,10 +1,10 @@
 const config = {
   projectName: 'fe_Nearby',
   date: '2021-8-8',
-  designWidth: 750,
+  designWidth: 828,
   deviceRatio: {
     640: 2.34 / 2,
-    750: 1,
+    414: 1,
     828: 1.81 / 2
   },
   sourceRoot: 'src',

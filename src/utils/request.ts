@@ -51,7 +51,7 @@ export class Request {
         params,
         closeErrorTip = false, // 是否关闭错误提醒,
         header,
-        isRedirection = true, // 未登录状态下是否重定向到登陆页
+        // isRedirection = true, // 未登录状态下是否重定向到登陆页
                 }: any) {
         method = method.toUpperCase();
         if (params && (method === 'GET' || method === 'DELETE')) {
@@ -79,7 +79,6 @@ export class Request {
         const preConfig = this.preFetch(httpDefaultConfig);
         const config: any = this.setToken(preConfig);
         const res: any = await Taro.request(config).catch(error => ({error}));
-
         if (res.error) {
             if (!closeErrorTip) {
                 Taro.showToast({title: '系统繁忙', icon: 'none'});
@@ -88,17 +87,18 @@ export class Request {
         }
 
         if (res.statusCode === 200 && res.data) {
-            if (res.data.code === 10008) {
-                Taro.removeStorageSync('assesstoken');
-                isRedirection && util.goLogin();
-                return Promise.reject(res.data);
-            }
-            if (res.data.code === 200) {
+            // if (res.data.code === 10008) {
+            //     Taro.removeStorageSync('assesstoken');
+            //     isRedirection && util.goLogin();
+            //     return Promise.reject(res.data);
+            // }
+            if (res.data.meta?.code === 0) {
                 return res.data.data;
             }
-            if (!closeErrorTip) {
-                Taro.showToast({title: res.data.message || '网络错误', icon: "none"});
+            if (closeErrorTip) {
+                return res.data.meta?.code;
             }
+            Taro.showToast({title: res.data.meta?.msg || '网络错误', icon: "none"});
             return Promise.reject(res.data);
         }
         if (!closeErrorTip) {

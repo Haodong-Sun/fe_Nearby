@@ -7,11 +7,12 @@ class Conf {
     }
 
     setBaseUrl() {
+        const protocolHttp = 'http://';
         const protocolHttps = 'https://';
         let baseAPI = '';
         switch (true) {
             case process.env.NODE_ENV === 'development':
-                baseAPI = `${protocolHttps}`; // 测试接口域名
+                baseAPI = `${protocolHttp}47.104.186.111:8090`; // 测试接口域名
                 break;
             case process.env.NODE_ENV === 'production':
                 baseAPI = `${protocolHttps}`; // 线上接口域名
@@ -28,7 +29,7 @@ class Conf {
         let hostUrl = '';
         switch (true) {
             case process.env.NODE_ENV === 'development':
-                hostUrl = `${protocolHttps}`; // 测试接口域名
+                hostUrl = `${protocolHttps}47.104.186.111:8090`; // 测试接口域名
                 break;
             case process.env.NODE_ENV === 'production':
                 hostUrl = `${protocolHttps}`; // 线上接口域名

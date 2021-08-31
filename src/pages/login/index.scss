@@ -1,0 +1,54 @@
+.login-container {
+  .logo {
+    width: 330px;
+    height: 330px;
+    display: block;
+    margin: 418px auto 0;
+  }
+  .login-tag {
+    width: 486.46px;
+    text-align: center;
+    font-family: PingFangSC-Medium;
+    font-size: 32px;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    font-weight: 500;
+    padding: 28px 0;
+    background-image: linear-gradient(90deg, #06AECF 0%, #0ED7E9 100%);
+    border-radius: 51px;
+    margin: 184px auto 58px;
+  }
+  .login-tab {
+    text-align: center;
+    .wechat-logo {
+      width: 50px;
+      height: 40px;
+      margin-right: 30px;
+      display: inline-block;
+      position: relative;
+      top: 8px;
+    }
+    .login-text {
+      text-decoration: underline;
+      font-family: PingFangSC-Regular;
+      font-size: 32px;
+      color: #00ADCE;
+      letter-spacing: 0;
+      font-weight: 400;
+    }
+    .login-btn {
+      text-decoration: underline;
+      font-family: PingFangSC-Regular;
+      font-size: 32px;
+      color: #00ADCE;
+      letter-spacing: 0;
+      font-weight: 400;
+      background-color: white;
+      display: inline;
+      padding: 0;
+      &:after {
+        border: 0;
+      }
+    }
+  }
+}
