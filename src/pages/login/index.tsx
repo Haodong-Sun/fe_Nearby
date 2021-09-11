@@ -19,8 +19,8 @@ const statusMap =  {
 
 export default class Index extends Component {
     private wxCode: any;
-    private domEvents: { onLogin: (e) => void, onTest: (e) => void } ;
-    private methods: { register: () => void, getUserInfo: (phoneNum: string) => void, setUserInfo: (params: any) => void };
+    private domEvents: { onLogin: (e) => void, onRegister: (e) => void } ;
+    private methods: { getUserInfo: (data: any) => void, setUserInfo: (params: any) => void };
 
     constructor(props) {
         super(props);
@@ -45,44 +45,56 @@ export default class Index extends Component {
                     Taro.showToast({title: '请刷新后重试!', icon: 'none'});
                     return;
                 }
-                if (status === UNREGISTERED) {
-                    this.methods.register();
-                    return;
-                }
                 Taro.navigateTo({
                     url: '/pages/index/index',
                 })
             },
-            onTest: (e) => {
-                console.log(e);
+            onRegister: (e) => {
+                const { detail = {} } = e || {};
+                const { errMsg = '', iv = '', encryptedData = ''} = detail || {};
+                if(errMsg === 'getPhoneNumber:fail user deny') {
+                    return;
+                }
+                if(errMsg !== 'getPhoneNumber:ok') {
+                    Taro.showToast({title: '请重试!', icon: 'none'});
+                    return;
+                }
+                Taro.showModal({
+                    title: '提示',
+                    content: '申请使用您的昵称、头像信息',
+                    showCancel: false,
+                    success: () => {
+                        this.methods.getUserInfo({
+                            iv,
+                            encrypt_data: encryptedData,
+                        })
+                    }
+                })
             }
         }
     }
 
     getMethods() {
         return {
-            register: () => {
-                // 获取用户手机号
-                let phoneNum = `86-1780120${Math.floor(Math.random() * 10000)}`;
-                this.methods.getUserInfo(phoneNum);
-            },
-            getUserInfo:  (phoneNum: string) => {
+            getUserInfo:  async ({iv = '', encrypt_data = ''}) => {
                 wx.getUserProfile({
-                    desc: '获取用户头像、昵称信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+                    desc: '申请使用用户昵称、头像',
                     success: (res) => {
                         const { userInfo } = res || {};
                         const { avatarUrl = '', nickName = '' } = userInfo || {};
                         const params = {
                             nickname: nickName,
                             head_url: avatarUrl,
-                            phone_number: phoneNum,
                             wx_code: this.wxCode,
+                            iv,
+                            encrypt_data,
                         };
                         this.methods.setUserInfo(params);
                     },
                     fail: () => {
                         const params = {
-                            phone_number: phoneNum,
+                            iv,
+                            encrypt_data,
                             wx_code: this.wxCode,
                         };
                         this.methods.setUserInfo(params);
@@ -90,8 +102,10 @@ export default class Index extends Component {
                 })
             },
             setUserInfo: (params) => {
-                apiLogin.goRegister(params).then(data => {
-                    console.log(data);
+                apiLogin.goRegister(params).then(() => {
+                    Taro.navigateTo({
+                        url: '/pages/index/index',
+                    })
                 });
             }
         }
@@ -126,23 +140,22 @@ export default class Index extends Component {
 
     render () {
         const { domEvents } = this;
-        // const { status } = this.state;
+        const { status } = this.state;
         return (
             <View className='login-container'>
                 <CoverImage className="logo" src={logoImg} />
                 <View className="login-tag">登录、注册Nearby</View>
                 <View className="login-tab">
                     <CoverImage src={wechatImg} className="wechat-logo" />
-                    {/*{*/}
-                    {/*    status === UNREGISTERED ? (*/}
-                    {/*        <Button className="login-btn" onClick={domEvents.onRegister}>微信快速登录</Button>*/}
-                    {/*    ) : (*/}
-                    {/*        <Text className="login-text" onClick={domEvents.onLogin}>微信快速登录</Text>*/}
-                    {/*    )*/}
-                    {/*}*/}
-                    <Text className="login-text" onClick={domEvents.onLogin}>微信快速登录</Text>
+                    {
+                        status === UNREGISTERED ? (
+                            <Button open-type="getPhoneNumber" className="login-btn" onGetPhoneNumber={domEvents.onRegister}>微信快速登录</Button>
+                        ) : (
+                            <Text className="login-text" onClick={domEvents.onLogin}>微信快速登录</Text>
+                        )
+                    }
+                    {/*<Button open-type="getPhoneNumber" className="login-btn" onGetPhoneNumber={domEvents.onRegister}>微信快速登录</Button>*/}
                 </View>
-                {/*<Button openType="getPhoneNumber" onGetPhoneNumber={domEvents.onTest}>微信快速登录</Button>*/}
             </View>
         )
     }
